@@ -1,7 +1,6 @@
-import { celebrate, Joi, Segments } from 'celebrate';
+import { Joi, Segments } from 'celebrate';
 import { TAGS } from '../constants/tags.js';
 import { isValidObjectId } from 'mongoose';
-
 
 const objectIdValidator = (value, helpers) => {
   if (!isValidObjectId(value)) {
@@ -10,42 +9,26 @@ const objectIdValidator = (value, helpers) => {
   return value;
 };
 
-
-export const getAllNotesSchema = celebrate({
-  [Segments.QUERY]: Joi.object({
-    page: Joi.number().integer().min(1).default(1),
-    perPage: Joi.number().integer().min(5).max(20).default(10),
-    tag: Joi.string().valid(...TAGS).optional(),
-    search: Joi.string().allow('').optional(),
-  }),
+export const getAllNotesJoi = Joi.object({
+  page: Joi.number().integer().min(1).default(1),
+  perPage: Joi.number().integer().min(5).max(20).default(10),
+  tag: Joi.string().valid(...TAGS).optional(),
+  search: Joi.string().allow('').optional(),
 });
 
-export const noteIdSchema = celebrate({
-  [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string().custom(objectIdValidator, 'ObjectId validation').required(),
-  }),
+export const noteIdJoi = Joi.object({
+  noteId: Joi.string().custom(objectIdValidator, 'ObjectId validation').required(),
 });
 
-
-export const createNoteSchema = celebrate({
-  [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1).required(),
-    content: Joi.string().allow('').optional(),
-    tag: Joi.string().valid(...TAGS).optional(),
-  }),
+export const createNoteJoi = Joi.object({
+  title: Joi.string().min(1).required(),
+  content: Joi.string().allow('').optional(),
+  tag: Joi.string().valid(...TAGS).optional(),
 });
 
+export const updateNoteJoi = Joi.object({
+  title: Joi.string().min(1).optional(),
+  content: Joi.string().allow('').optional(),
+  tag: Joi.string().valid(...TAGS).optional(),
+}).min(1); // одне обов♥язкове
 
-export const updateNoteSchema = celebrate({
-  [Segments.PARAMS]: Joi.object({
-    noteId: Joi.string()
-      .custom(objectIdValidator)
-      .required(),
-  }),
-
-  [Segments.BODY]: Joi.object({
-    title: Joi.string().min(1),
-    content: Joi.string().allow(''),
-    tag: Joi.string().valid(...TAGS),
-  }).min(1), // один обо♥язковий
-});
