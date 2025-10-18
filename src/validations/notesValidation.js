@@ -1,4 +1,4 @@
-import { Joi, Segments } from 'celebrate';
+import { Joi } from 'celebrate';
 import { TAGS } from '../constants/tags.js';
 import { isValidObjectId } from 'mongoose';
 
@@ -9,26 +9,29 @@ const objectIdValidator = (value, helpers) => {
   return value;
 };
 
-export const getAllNotesJoi = Joi.object({
+export const getAllNotesSchema = Joi.object({
   page: Joi.number().integer().min(1).default(1),
   perPage: Joi.number().integer().min(5).max(20).default(10),
   tag: Joi.string().valid(...TAGS).optional(),
   search: Joi.string().allow('').optional(),
 });
 
-export const noteIdJoi = Joi.object({
-  noteId: Joi.string().custom(objectIdValidator, 'ObjectId validation').required(),
+export const noteIdSchema = Joi.object({
+  noteId: Joi.string()
+    .custom(objectIdValidator, 'ObjectId validation')
+    .required(),
 });
 
-export const createNoteJoi = Joi.object({
+export const createNoteSchema = Joi.object({
   title: Joi.string().min(1).required(),
   content: Joi.string().allow('').optional(),
   tag: Joi.string().valid(...TAGS).optional(),
 });
 
-export const updateNoteJoi = Joi.object({
+export const updateNoteSchema = Joi.object({
   title: Joi.string().min(1).optional(),
   content: Joi.string().allow('').optional(),
   tag: Joi.string().valid(...TAGS).optional(),
-}).min(1); // одне обов♥язкове
+}).min(1); //одне поле обов♥язкове
+
 

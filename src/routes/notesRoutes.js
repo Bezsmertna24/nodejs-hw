@@ -9,50 +9,48 @@ import {
 } from '../controllers/notesController.js';
 
 import {
-  getAllNotesJoi,
-  noteIdJoi,
-  createNoteJoi,
-  updateNoteJoi,
+  getAllNotesSchema,
+  noteIdSchema,
+  createNoteSchema,
+  updateNoteSchema,
 } from '../validations/notesValidation.js';
 
 const router = Router();
 
-
 router.get(
   '/notes',
-  celebrate({ [Segments.QUERY]: getAllNotesJoi }),
+  celebrate({ [Segments.QUERY]: getAllNotesSchema }),
   getAllNotes
 );
 
-
 router.get(
   '/notes/:noteId',
-  celebrate({ [Segments.PARAMS]: noteIdJoi }),
+  celebrate({ [Segments.PARAMS]: noteIdSchema }),
   getNoteById
 );
 
-
 router.post(
   '/notes',
-  celebrate({ [Segments.BODY]: createNoteJoi }),
+  celebrate({ [Segments.BODY]: createNoteSchema }),
   createNote
 );
 
 router.delete(
   '/notes/:noteId',
-  celebrate({ [Segments.PARAMS]: noteIdJoi }),
+  celebrate({ [Segments.PARAMS]: noteIdSchema }),
   deleteNote
 );
 
-//(path + body одночасно)
+// (path + body одночасно)
 router.patch(
   '/notes/:noteId',
   celebrate({
-    [Segments.PARAMS]: noteIdJoi,
-    [Segments.BODY]: updateNoteJoi,
+    [Segments.PARAMS]: noteIdSchema,
+    [Segments.BODY]: updateNoteSchema,
   }),
   updateNote
 );
 
 export default router;
+
 
