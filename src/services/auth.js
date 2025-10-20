@@ -1,10 +1,9 @@
-const crypto = require('crypto');
-const Session = require('../models/session');
-const { FIFTEEN_MINUTES, ONE_DAY } = require('../constants/time');
+import crypto from 'crypto';
+import { Session } from '../models/session.js';
+import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
 
-
-async function createSession(userId) {
-
+// 🟢 Створення сесії
+export async function createSession(userId) {
   const accessToken = crypto.randomBytes(32).toString('hex');
   const refreshToken = crypto.randomBytes(32).toString('hex');
 
@@ -16,36 +15,33 @@ async function createSession(userId) {
     accessToken,
     refreshToken,
     accessTokenValidUntil,
-    refreshTokenValidUntil
+    refreshTokenValidUntil,
   });
 
   return session;
 }
 
-function setSessionCookies(res, session) {
+// 🟢 Встановлення кукі
+export function setSessionCookies(res, session) {
   const commonOptions = {
     httpOnly: true,
     secure: true,
-    sameSite: 'none'
+    sameSite: 'none',
   };
 
   res.cookie('accessToken', session.accessToken, {
     ...commonOptions,
-    maxAge: FIFTEEN_MINUTES
+    maxAge: FIFTEEN_MINUTES,
   });
 
   res.cookie('refreshToken', session.refreshToken, {
     ...commonOptions,
-    maxAge: ONE_DAY
+    maxAge: ONE_DAY,
   });
 
   res.cookie('sessionId', session._id.toString(), {
     ...commonOptions,
-    maxAge: ONE_DAY
+    maxAge: ONE_DAY,
   });
 }
 
-module.exports = {
-  createSession,
-  setSessionCookies
-};
