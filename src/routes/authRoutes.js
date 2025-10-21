@@ -14,9 +14,9 @@ import {
 const router = express.Router();
 
 
-router.post('/register', registerUserSchema, registerUser);
+router.post('/register', celebrate(registerUserSchema), registerUser);
 
-router.post('/login', loginUserSchema, loginUser);
+router.post('/login', celebrate(loginUserSchema), loginUser);
 
 router.post('/refresh', refreshUserSession);
 
