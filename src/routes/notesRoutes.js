@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { celebrate, Segments } from 'celebrate';
+import { authenticate } from '../middlewares/authenticate.js';
+
 import {
   getAllNotes,
   getNoteById,
