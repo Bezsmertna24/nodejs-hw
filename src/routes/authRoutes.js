@@ -1,5 +1,5 @@
 import express from 'express';
-import { celebrate } from 'celebrate';
+import { celebrate, Segments } from 'celebrate';
 import {
   registerUserSchema,
   loginUserSchema
