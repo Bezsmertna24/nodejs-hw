@@ -1,4 +1,5 @@
 import express from 'express';
+import { celebrate } from 'celebrate';
 import {
   registerUserSchema,
   loginUserSchema
