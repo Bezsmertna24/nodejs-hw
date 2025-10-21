@@ -1,17 +1,16 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
-  username: { type: String, trim: true },
-  email: { type: String, required: true, trim: true },
-  password: { type: String, required: true }
-}, {
-  timestamps: true
-});
+const userSchema = new mongoose.Schema(
+  {
+    username: { type: String, trim: true },
+    email: { type: String, required: true, trim: true, unique: true },
+    password: { type: String, required: true },
+  },
+  { timestamps: true }
+);
 
 userSchema.pre('save', function (next) {
-  if (!this.username) {
-    this.username = this.email;
-  }
+  if (!this.username) this.username = this.email;
   next();
 });
 
@@ -21,6 +20,5 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-const User = mongoose.model('User', userSchema);
+export const User = mongoose.model('User', userSchema);
 
-module.exports = User;
