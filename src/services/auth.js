@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { Session } from '../models/session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
 
-// 🟢 Створення сесії
+
 export async function createSession(userId) {
   const accessToken = crypto.randomBytes(32).toString('hex');
   const refreshToken = crypto.randomBytes(32).toString('hex');
@@ -21,7 +21,7 @@ export async function createSession(userId) {
   return session;
 }
 
-// 🟢 Встановлення кукі
+
 export function setSessionCookies(res, session) {
   const commonOptions = {
     httpOnly: true,

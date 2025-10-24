@@ -11,6 +11,8 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 import notesRoutes from './routes/notesRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import userRoutes from "./routes/userRoutes.js";
+
 
 dotenv.config();
 
@@ -23,6 +25,7 @@ app.use(logger);
 
 app.use('/', notesRoutes);
 app.use('/auth', authRoutes);
+app.use("/users", userRoutes);
 
 app.use(notFoundHandler);
 app.use(errors());
